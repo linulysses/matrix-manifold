@@ -1,6 +1,6 @@
 Package: MatrixManifold
 Type: Package
-Title: comprehensive functional data analysis
+Title: matrix manifold
 Version: 0.1.0
 Author: Zhenhua Lin
 Maintainer: The package maintainer <linulysses@gmail.com>
