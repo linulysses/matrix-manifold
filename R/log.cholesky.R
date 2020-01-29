@@ -10,9 +10,26 @@ metric.chol <- function(L,X,Y)
 #' @keywords internal
 geodesic.chol <- function(L,X,t)
 {
-    R <- lower.part(L) + t*lower.part(X)
-    diag(R) <- diag(L) * exp(t*diag(X)/diag(L))
-    return(R)
+    if(length(t) > 1)
+    {
+        res <- array(0,dim=c(dim(X),length(t)))
+        for(i in 1:length(t))
+        {
+            s <- t[i]
+            R <- lower.part(L) + s*lower.part(X)
+            diag(R) <- diag(L) * exp(s*diag(X)/diag(L))
+            res[,,i] <- R
+        }
+        
+        return(res)
+    }
+    else
+    {
+        R <- lower.part(L) + t*lower.part(X)
+        diag(R) <- diag(L) * exp(t*diag(X)/diag(L))
+        return(R)
+    }
+    
 }
 
 #' log-cholesky distance on the Cholesky factor space
@@ -116,8 +133,18 @@ geodesic.spd_LogCholesky <- function(mfd,S,W,t,opt.param=NULL)
     if(is.null(opt.param)) L <- ch(S)
     else L <- ch(S)
     gL <- geodesic.chol(L,d.ch(S,W,L),t)
-    R <- gL %*% base::t(gL)
-    return(make.sym(R))
+    if(length(t) > 1)
+    {
+        R <- array(0,dim(gL))
+        for(i in 1:length(t))
+            R[,,i] <- make.sym(gL[,,i] %*% base::t(gL[,,i]))
+    }
+    else
+    {
+        R <- make.sym(gL %*% base::t(gL))
+    }
+    
+    return(R)
 
 }
 
@@ -181,3 +208,109 @@ parallel.transport.spd_LogCholesky <- function(mfd,S1,S2,W)
     Y <- lower.part(X,T) + diag(as.vector(diag(K)*diag(L)^(-1)*diag(X)),nrow=mfd$dim[1],ncol=mfd$dim[2])
     return(d.ch.to.spd(K,Y))
 }
+
+
+
+
+#' Generate a set of normally distributed random matrices that represent tangent vectors at some point. 
+#' @param mfd an object created by \code{create.matrix.manifold}
+#' @param n sample size
+#' @param sig the standard deviation of the normal distribution
+#' @return an \code{M*N*n} array of \code{n} matrices, where \code{M*N} is the dimensions of matrices
+#' @keywords internal
+#' @export
+gen.tangent.vectors.spd_LogCholesky <- function(mfd,n=1,sig=1,drop=T)
+{
+    return(gen.sym(d=mfd$dim[1],n=n,sig=sig,drop=drop))
+}
+
+#' Generate a set of random matrices on a matrix manifold
+#' @param mfd an object created by \code{create.matrix.manifold}
+#' @param n sample size
+#' @param mu the Frechet mean. If \code{NULL} is given, then it is the identity element, e.g., for SPD, it is the identity matrix
+#' @param sig the standard deviation of the normal distribution
+#' @return an \code{M*N*n} array of \code{n} matrices, where \code{M*N} is the dimensions of matrices
+#' @details The generated samples have Frechet mean \code{mu}. The logarithmic maps of these samples at \code{mu} follow a isotropic D-dimensional normal distribution with isotropic variance \code{sig}, where D is the intrinsic dimension of the matrix manifold
+#' @keywords internal
+#' @export
+gen.matrices.spd_LogCholesky <- function(mfd,n=1,mu=NULL,sig=1,drop=T)
+{
+    
+    if(is.null(mu)) mu <- diag(rep(1,mfd$dim[1]))
+    stopifnot(is.spd(mu))
+    
+    S <- gen.tangent.vectors(mfd,n,sig,drop=F)
+    
+    R <- array(0,c(mfd$dim[1],mfd$dim[1],n))
+    for(i in 1:n)
+    {
+        R[,,i] <- rie.exp(mfd,mu,S[,,i])
+    }
+    
+    if(n==1 && drop) return(R[,,i])
+    else return(R)
+}
+
+#' Frechet mean of matrices
+#' @param mfd an object created by \code{create.matrix.manifold}
+#' @param S an \code{M*N*n} array of matrices or a list of \code{n} matrices, where \code{n} is the number of matrices
+#' @return the Frechet mean of the matrices in \code{S}
+#' @keywords internal
+#' @export
+frechet.mean.spd_LogCholesky <- function(mfd,S)
+{
+    R <- 0
+    D <- 0
+    if(is.list(S))
+    {
+        for(i in 1:length(S))
+        {
+            C <- ch(S[[i]])
+            R <- R + lower.part(C,T)
+            D <- D + log(diag(C))
+        }
+        R <- R / length(S)
+        D <- D / length(S)
+        L <- R + diag(expm.diag(D))
+        return(L %*% t(L))
+    }
+    else if(is.array(S))
+    {
+        n <- dim(S)[3]
+        d <- dim(S)[1]
+        for(i in 1:n)
+        {
+            C <- ch(S[,,i])
+            R <- R + lower.part(C,T)
+            D <- D + log(diag(C))
+        }
+        R <- R / n
+        D <- D / n
+        L <- R + diag(exp(D),nrow=d,ncol=d)
+        return(L %*% t(L))
+    }
+    else if(is.matrix(S)) return(S)
+    else stop('S must be an array, a list or a matrix')
+    
+}
+
+
+#' Frechet mean of positive lower-triangular matrix under Log-Cholesky metric
+#' @keywords internal
+frechet.mean.chol <- function(S)
+{
+    R <- 0
+    D <- 0
+    n <- dim(S)[3]
+    for(i in 1:n)
+    {
+        C <- S[,,i]
+        R <- R + lower.part(C,T)
+        D <- D + log(diag(C))
+    }
+    R <- R / n
+    D <- D / n
+    L <- R + diag(exp(D))
+    return(L)
+}
+

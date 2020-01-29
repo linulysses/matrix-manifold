@@ -43,6 +43,38 @@ test_that("check routines in symmetric.matrix.R", {
             expect_true(m==n)
         }
         
+        mfd <- create.matrix.manifold('sym','Frobenius',dim=c(d,d))
+        
+        A <- rmatrix(d,d)
+        P <- make.sym(A %*% t(A))
+        W <- gen.sym(d,1)
+        V <- gen.sym(d,1)
+        m <- rie.metric.sym_Frobenius(mfd,P,W,V)
+        expect_true(abs(m-sum(W*V)) < eps)
+        
+        W <- runif(1) * W / sqrt(rie.metric.sym_Frobenius(mfd,P,W,W))
+        S <- rie.exp.sym_Frobenius(mfd,P,W)
+        V <- rie.log.sym_Frobenius(mfd,P,S)
+        expect_true(frobenius.norm(W-V) < eps)
+        
+        t <- runif(1)
+        W <- W / sqrt(rie.metric.sym_Frobenius(mfd,P,W,W))
+        S <- geodesic.sym_Frobenius(mfd,P,W,t)
+        expect_true(abs(geo.dist.sym_Frobenius(mfd,P,S)-t) < eps)
+        
+        
+        A <- rmatrix(d,d)
+        P <- make.sym(A %*% t(A))
+        W <- gen.sym(d,1)
+        W <- W / sqrt(rie.metric.sym_Frobenius(mfd,P,W,W))
+        V <- gen.sym(d,1)
+        t <- runif(2)
+        Qs <- geodesic.sym_Frobenius(mfd,P,W,t)
+        Q <- Qs[,,1]
+        X <- parallel.transport.sym_Frobenius(mfd,P,Q,V)
+        Y <- parallel.transport.sym_Frobenius(mfd,P,Q,W)
+        expect_true(abs(rie.metric.sym_Frobenius(mfd,P,W,V)-
+                            rie.metric.sym_Frobenius(mfd,Q,X,Y)) < eps)
         
     }
     

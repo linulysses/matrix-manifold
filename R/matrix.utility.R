@@ -1,3 +1,21 @@
+#' transpose all matrices in an array
+#' @keywords internal
+batch.t <- function(S)
+{
+    if(is.matrix(S)) return(t(S))
+    else
+    {
+        d <- dim(S)
+        R <- array(0,c(d[2],d[1],d[3]))
+        for(i in 1:d[3])
+        {
+            R[,,i] <- t(S[,,i])
+        }
+    }
+    return(R)
+}
+
+
 #' Generate a random matrix
 #' @keywords internal
 rmatrix <- function(m,n)
@@ -187,3 +205,38 @@ trace <- function(S)
 #'     return(Rot)
 #' }
 #' 
+#' 
+
+
+#' Center a sample of matrices in Euclidean space
+#' @param S an array of matrices where the last dimension corresponds to sample size
+#' @param mu the center
+#' @keywords internal
+center.matrices <- function(S,mu=NULL)
+{
+    if(is.null(mu)) mu <- euclidean.mean(S)
+    
+    n <- dim(S)[3]
+    for(i in 1:n)
+    {
+        S[,,i] <- S[,,i] - mu
+        
+    }
+    return(S)
+}
+
+#' Euclidean mean of a sample of matrices
+#' @param S an array of matrices where the last dimension corresponds to sample size
+#' @keywords internal
+euclidean.mean <- function(S)
+{
+    R <- 0
+    n <- dim(S)[3]
+    for(i in 1:n)
+    {
+        R <- R + S[,,i]
+        
+    }
+    R <- R / n
+    return(R)
+}

@@ -6,8 +6,12 @@
 #' @export
 create.matrix.manifold <- function(manifold,metric,dim)
 {
-    stopifnot(manifold %in% c('spd')) #,'stiefel','sym'))
-    stopifnot(metric %in% c('LogCholesky'))#,'AffineInvariant','LogEuclidean'))
+    stopifnot(manifold %in% c('spd','sym')) #,'stiefel','sym'))
+    if(manifold == 'spd')
+        stopifnot(metric %in% c('LogCholesky'))#,'AffineInvariant','LogEuclidean'))
+    if(manifold == 'sym')
+        stopifnot(metric %in% c('Frobenius'))
+    
     class.name <- paste0(manifold,'_',metric)
     if(length(dim) == 1) dim <- rep(dim,2)
     mfd <- structure(list(dim=dim,manifold=manifold,metric=metric),class=class.name)
@@ -57,7 +61,7 @@ rie.metric <- function(mfd,p,u,v,...)
 #' @param u a tangent vector at \code{p}, representing the direction of the geodesic
 #' @param t a vector of nonnegative real numbers
 #' @param ... other parameters (primarily for computation speedup)
-#' @return an array of matrices which are the geodesic evaluated at \code{t}
+#' @return an array of matrices which are the geodesic evaluated at \code{t}. The last dimension of the array corresponds to \code{t}
 #' @export
 geodesic <- function(mfd,p,u,t,...)
 {

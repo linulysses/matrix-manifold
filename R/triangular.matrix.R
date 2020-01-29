@@ -1,3 +1,49 @@
+
+
+
+#' generate a set of random lower triangular matrix of dimension d
+#' @keywords internal
+gen.lower <- function(d,n=1,strict=F,mu=diag(d),sig=1,dist='Gaussian',drop=T)
+{
+    S <- array(0,c(d,d,n))
+    for(i in 1:n)
+    {
+        if(dist == 'uniform')
+            S[,,i] <- lower.part(matrix(runif(d*d),d,d),strict)
+        else if(dist == 'Gaussian')
+        {
+            if(d==1)
+            {
+                S[,,i] <- exp(rnorm(1,mean=log(mu),sd=sig))
+            }
+            else
+            {
+                v.mu <- lower.to.vec(mu)[-(1:d)]
+                Sig <- sig * diag(d*(d-1)/2)
+                L <- vec.to.lower(c(rep(0,d),MASS::mvrnorm(1,mu=v.mu,Sigma=Sig)),drop=T)
+                if(!strict)
+                {
+                    diag(L) <- exp(MASS::mvrnorm(1,mu=log(diag(mu)),Sigma=sig*diag(d)))
+                }
+                S[,,i] <- L
+            }
+        }
+    }
+    
+    if(n==1 && drop) return(S[,,i])
+    else return(S)
+}
+
+
+
+#' generate a random upper triangular matrix of dimension d
+#' @keywords internal
+gen.upper <- function(d,n=1,strict=F,mu=diag(d),sig=1,dist='Gaussian',drop=T)
+{
+    batch.t(gen.lower(d,n,strict,t(mu),sig,dist,drop))
+}
+
+
 #' transform a (set of) lower triangular matrix into a vector representation, diagonal by diagonal, starting from the main diagonal
 #' @keywords internal
 lower.to.vec.atomic <- function(L)
