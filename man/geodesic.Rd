@@ -18,7 +18,7 @@ geodesic(mfd, p, u, t, ...)
 \item{...}{other parameters (primarily for computation speedup)}
 }
 \value{
-an array of matrices which are the geodesic evaluated at \code{t}
+an array of matrices which are the geodesic evaluated at \code{t}. The last dimension of the array corresponds to \code{t}
 }
 \description{
 Compute the geodesic starting at some point on a manifold
