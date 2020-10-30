@@ -7,7 +7,7 @@
 rie.exp(mfd, p, v, ...)
 }
 \arguments{
-\item{mfd}{the manifold object created by \code{create.matrix.manifold}}
+\item{mfd}{the manifold object created by \code{matrix.manifold}}
 
 \item{p}{the foot point of the exponential map}
 

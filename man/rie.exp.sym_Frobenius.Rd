@@ -2,20 +2,23 @@
 % Please edit documentation in R/symmetric.matrix.R
 \name{rie.exp.sym_Frobenius}
 \alias{rie.exp.sym_Frobenius}
-\title{Frobenius exponential map of symmetric matrices at S}
+\title{Frobenius exponential map of symmetric matrices at p}
 \usage{
-\method{rie.exp}{sym_Frobenius}(mfd, S, V, ...)
+\method{rie.exp}{sym_Frobenius}(mfd, p, v, ...)
 }
 \arguments{
-\item{S}{the foot point of the exponential map}
+\item{mfd}{the manifold object}
 
-\item{V}{a tangent vector at \code{S}}
+\item{p}{the foot point of the exponential map}
+
+\item{v}{a tangent vector at \code{p}}
 
 \item{...}{other parameters (primarily for computation speedup)}
 }
 \value{
-a matrix that is the exponential map of \code{V}
+a matrix that is the exponential map of \code{v}
 }
 \description{
-Frobenius exponential map of symmetric matrices at S
+Frobenius exponential map of symmetric matrices at p
 }
+\keyword{internal}

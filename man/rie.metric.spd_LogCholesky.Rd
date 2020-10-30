@@ -2,20 +2,20 @@
 % Please edit documentation in R/log.cholesky.R
 \name{rie.metric.spd_LogCholesky}
 \alias{rie.metric.spd_LogCholesky}
-\title{Log-Cholesky metric of SPD at S}
+\title{Log-Cholesky metric of SPD at p}
 \usage{
-\method{rie.metric}{spd_LogCholesky}(mfd, S, W, V, opt.param = NULL)
+\method{rie.metric}{spd_LogCholesky}(mfd, p, u, v, ...)
 }
 \arguments{
-\item{S}{spd, the base point}
+\item{p}{spd, the base point}
 
-\item{W}{symmetric, a tangent vector at S}
+\item{u}{symmetric, a tangent vector at p}
 
-\item{V}{symmetric, a tangent vector at S}
+\item{v}{symmetric, a tangent vector at p}
 
-\item{opt.param}{optional parameters, primarily for speedup. In the case log-Cholesky, it can be ch(S)}
+\item{...}{L=ch(p)}
 }
 \description{
-Log-Cholesky metric of SPD at S
+Log-Cholesky metric of SPD at p
 }
 \keyword{internal}

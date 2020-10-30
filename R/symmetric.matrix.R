@@ -5,7 +5,8 @@
 #' @param sig a scalar representing the dispersion around the mean
 #' @param drop drop the last dimension if \code{n=1}
 #' @keywords internal
-gen.sym <- function(d,n=1,mu=matrix(0,d,d),sig=1,dist='Gaussian',drop=T)
+#' @importFrom MASS mvrnorm
+rsym <- function(d,n=1,mu=matrix(0,d,d),sig=1,dist='Gaussian',drop=T)
 {
     S <- array(0,c(d,d,n))
     for(i in 1:n)
@@ -247,56 +248,61 @@ count.sym.matrix <- function(S)
 
 
 
-#' Frobenius metric of symmetric matrices at S
-#' @param S symmetric, the base point
-#' @param W symmetric, a tangent vector at S
-#' @param V symmetric, a tangent vector at S
-#' @param opt.param optional parameters, primarily for speedup. Not used here
+#' Frobenius metric of symmetric matrices at p
+#' @param p symmetric, the base point
+#' @param u symmetric, a tangent vector at p
+#' @param v symmetric, a tangent vector at p
+#' @param ... optional parameters, primarily for speedup. Not used here
 #' @keywords internal
 #' @export
-rie.metric.sym_Frobenius <- function(mfd,S,W,V,opt.param=NULL)
+rie.metric.sym_Frobenius <- function(mfd,p,u,v,...)
 {
-    return(sum(W*V))
+    return(sum(u*v))
 }
 
-#' Frobenius exponential map of symmetric matrices at S
-#' @param S the foot point of the exponential map
-#' @param V a tangent vector at \code{S}
+#' Frobenius exponential map of symmetric matrices at p
+#' @param mfd the manifold object
+#' @param p the foot point of the exponential map
+#' @param v a tangent vector at \code{p}
 #' @param ... other parameters (primarily for computation speedup)
-#' @return a matrix that is the exponential map of \code{V}
+#' @return a matrix that is the exponential map of \code{v}
+#' @keywords internal
 #' @export
-rie.exp.sym_Frobenius <- function(mfd,S,V,...)
+rie.exp.sym_Frobenius <- function(mfd,p,v,...)
 {
-    return(S+V)
+    return(p+v)
 }
 
-#' Frobenius logarithmic map of symmetric matrices at S
-#' @param S the foot point of the log map
-#' @param Q a tangent vector at \code{S}
+#' Frobenius logarithmic map of symmetric matrices at p
+#' @param mfd the manifold object
+#' @param p the foot point of the log map
+#' @param q a tangent vector at \code{p}
 #' @param ... other parameters (primarily for computation speedup)
-#' @return a matrix that is the log map of \code{Q}
+#' @return a matrix that is the log map of \code{q}
+#' @keywords internal
 #' @export
-rie.log.sym_Frobenius <- function(mfd,S,Q,...)
+rie.log.sym_Frobenius <- function(mfd,p,q,...)
 {
-    return(Q-S)
+    return(q-p)
 }
 
-#' Frobenius geodesic of symmetric matrices at S
-#' @param S symmetric
-#' @param W symmetric
+#' Frobenius geodesic of symmetric matrices
+#' @param mfd the manifold object
+#' @param p symmetric
+#' @param u symmetric
 #' @param t time
-#' @param opt.param optional parameters, primarily for speedup. Not used here.
+#' @param ... optional parameters, primarily for speedup. Not used here.
 #' @keywords internal
 #' @export
-geodesic.sym_Frobenius <- function(mfd,S,W,t,opt.param=NULL)
+geodesic.sym_Frobenius <- function(mfd,p,u,t,...)
 {
-    if(length(t) == 1) return(S+t*W)
+    if(length(t) == 1) return(p+t*u)
     else
     {
-        R <- array(0,c(dim(S),length(t)))
+        R <- array(0,c(dim(p),length(t)))
         for(i in 1:length(t))
         {
-            R[,,i] <- S + t[i] * W
+            R[,,i] <- p + t[i] * u
         }
         return(R)
     }
@@ -305,57 +311,61 @@ geodesic.sym_Frobenius <- function(mfd,S,W,t,opt.param=NULL)
 
 
 #' Compute the geodesic distance of two symmetric in Forbenius metric
-#' @param S1 a symmetric
-#' @param S2 a symmetric
-#' @param opt.param optional parameters, primarily for speedup. 
+#' @param mfd the manifold object
+#' @param p a symmetric
+#' @param q a symmetric
+#' @param ... optional parameters, primarily for speedup. 
 #' @keywords internal
 #' @export
-geo.dist.sym_Frobenius <- function(mfd,S1,S2,opt.param=NULL)
+geo.dist.sym_Frobenius <- function(mfd,p,q,...)
 {
-    return(sqrt(sum((S1-S2)^2)))
+    return(sqrt(sum((p-q)^2)))
 }
 
 
 #' Parallel transport of a tangent vector from a point to another
-#' @param S1 symmetric
-#' @param S2 symmetric
-#' @param W a tangent vector at \code{S1}
+#' @param mfd the manifold object
+#' @param p symmetric
+#' @param q symmetric
+#' @param v a tangent vector at \code{p}
 #' @keywords internal
 #' @export
-parallel.transport.sym_Frobenius <- function(mfd,S1,S2,W)
+parallel.transport.sym_Frobenius <- function(mfd,p,q,v,...)
 {
-    return(W)
+    return(v)
 }
 
 
 #' Generate a set of normally distributed random matrices that represent tangent vectors at some point. 
-#' @param mfd an object created by \code{create.matrix.manifold}
+#' @param mfd an object created by \code{matrix.manifold}
 #' @param n sample size
 #' @param sig the standard deviation of the normal distribution
+#' @param drop whether return the result as a matrix when \code{n=1}
 #' @return an \code{M*N*n} array of \code{n} matrices, where \code{M*N} is the dimensions of matrices
 #' @keywords internal
 #' @export
-gen.tangent.vectors.sym_Frobenius <- function(mfd,n=1,sig=1,drop=T)
+rtvecor.sym_Frobenius <- function(mfd,n=1,sig=1,drop=T)
 {
-    return(gen.sym(d=mfd$dim[1],n=n,sig=sig,drop=drop))
+    return(rsym(d=mfd$dim[1],n=n,sig=sig,drop=drop))
 }
 
 #' Generate a set of random matrices on a matrix manifold
-#' @param mfd an object created by \code{create.matrix.manifold}
+#' @param mfd an object created by \code{matrix.manifold}
 #' @param n sample size
 #' @param mu the Frechet mean. If \code{NULL} is given, then it is the identity element, e.g., for SPD, it is the identity matrix
 #' @param sig the standard deviation of the normal distribution
+#' @param drop whether return the result as a matrix when \code{n=1}
 #' @return an \code{M*N*n} array of \code{n} matrices, where \code{M*N} is the dimensions of matrices
 #' @details The generated samples have Frechet mean \code{mu}. The logarithmic maps of these samples at \code{mu} follow a isotropic D-dimensional normal distribution with isotropic variance \code{sig}, where D is the intrinsic dimension of the matrix manifold
 #' @keywords internal
 #' @export
-gen.matrices.sym_Frobenius <- function(mfd,n=1,mu=NULL,sig=1,drop=T)
+rmatrix.sym_Frobenius <- function(mfd,n=1,mu=NULL,sig=1,drop=T)
 {
     
     if(is.null(mu)) mu <- diag(rep(1,mfd$dim[1]))
     stopifnot(is.sym(mu))
     
-    S <- gen.tangent.vectors(mfd,n,sig,drop=F)
+    S <- rtvecor(mfd,n,sig,drop=F)
     
     R <- array(0,c(mfd$dim[1],mfd$dim[1],n))
     for(i in 1:n)
@@ -369,7 +379,7 @@ gen.matrices.sym_Frobenius <- function(mfd,n=1,mu=NULL,sig=1,drop=T)
 
 
 #' Frechet mean of matrices
-#' @param mfd an object created by \code{create.matrix.manifold}
+#' @param mfd an object created by \code{matrix.manifold}
 #' @param S an \code{M*N*n} array of matrices or a list of \code{n} matrices, where \code{n} is the number of matrices
 #' @return the Frechet mean of the matrices in \code{S}
 #' @keywords internal

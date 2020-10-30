@@ -4,14 +4,16 @@
 \alias{geo.dist.sym_Frobenius}
 \title{Compute the geodesic distance of two symmetric in Forbenius metric}
 \usage{
-\method{geo.dist}{sym_Frobenius}(mfd, S1, S2, opt.param = NULL)
+\method{geo.dist}{sym_Frobenius}(mfd, p, q, ...)
 }
 \arguments{
-\item{S1}{a symmetric}
+\item{mfd}{the manifold object}
 
-\item{S2}{a symmetric}
+\item{p}{a symmetric}
 
-\item{opt.param}{optional parameters, primarily for speedup.}
+\item{q}{a symmetric}
+
+\item{...}{optional parameters, primarily for speedup.}
 }
 \description{
 Compute the geodesic distance of two symmetric in Forbenius metric

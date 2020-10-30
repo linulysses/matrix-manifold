@@ -4,14 +4,14 @@
 \alias{parallel.transport.spd_LogCholesky}
 \title{Parallel transport of a tangent vector from a point to another}
 \usage{
-\method{parallel.transport}{spd_LogCholesky}(mfd, S1, S2, W)
+\method{parallel.transport}{spd_LogCholesky}(mfd, p, q, v, ...)
 }
 \arguments{
-\item{S1}{a SPD}
+\item{p}{a SPD}
 
-\item{S2}{a SPD}
+\item{q}{a SPD}
 
-\item{W}{a tangent vector at \code{S1}}
+\item{v}{a tangent vector at \code{S1}}
 }
 \description{
 Parallel transport of a tangent vector from a point to another

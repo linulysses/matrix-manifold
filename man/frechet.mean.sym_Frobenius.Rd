@@ -7,7 +7,7 @@
 \method{frechet.mean}{sym_Frobenius}(mfd, S)
 }
 \arguments{
-\item{mfd}{an object created by \code{create.matrix.manifold}}
+\item{mfd}{an object created by \code{matrix.manifold}}
 
 \item{S}{an \code{M*N*n} array of matrices or a list of \code{n} matrices, where \code{n} is the number of matrices}
 }

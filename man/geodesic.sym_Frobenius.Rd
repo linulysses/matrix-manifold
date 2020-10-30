@@ -2,20 +2,22 @@
 % Please edit documentation in R/symmetric.matrix.R
 \name{geodesic.sym_Frobenius}
 \alias{geodesic.sym_Frobenius}
-\title{Frobenius geodesic of symmetric matrices at S}
+\title{Frobenius geodesic of symmetric matrices}
 \usage{
-\method{geodesic}{sym_Frobenius}(mfd, S, W, t, opt.param = NULL)
+\method{geodesic}{sym_Frobenius}(mfd, p, u, t, ...)
 }
 \arguments{
-\item{S}{symmetric}
+\item{mfd}{the manifold object}
 
-\item{W}{symmetric}
+\item{p}{symmetric}
+
+\item{u}{symmetric}
 
 \item{t}{time}
 
-\item{opt.param}{optional parameters, primarily for speedup. Not used here.}
+\item{...}{optional parameters, primarily for speedup. Not used here.}
 }
 \description{
-Frobenius geodesic of symmetric matrices at S
+Frobenius geodesic of symmetric matrices
 }
 \keyword{internal}

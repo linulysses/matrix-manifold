@@ -8,12 +8,12 @@ test_that("check routines in symmetric.matrix.R", {
     {
         for(n in c(1,10))
         {
-            L <- make.sym(rmatrix(d,d))
+            L <- make.sym(rmat(d,d))
             v <- sym.to.vec(L,drop=T)
             U <- vec.to.sym(v,drop=T)
             expect_true(all(L==U))
             
-            S <- gen.sym(d,n,drop=F)
+            S <- rsym(d,n,drop=F)
             V <- sym.to.vec(S,drop=F)
             expect_true(all(dim(V)==c(round(d*(d+1)/2),n)))
             R <- vec.to.sym(V,drop=F)
@@ -25,13 +25,13 @@ test_that("check routines in symmetric.matrix.R", {
             expect_true(is.sym.in.matrix.form(S))
             expect_false(is.sym.in.matrix.form(V))
             
-            S <- make.sym(rmatrix(d,d))
+            S <- make.sym(rmat(d,d))
             expect_true(is.sym.in.matrix.form(S))
             
             S1 <- sym.to.matrix.form(S)
             expect_true(all(S==S1))
             
-            S <- gen.sym(d,n,drop=F)
+            S <- rsym(d,n,drop=F)
             S1 <- sym.to.matrix.form(S)
             expect_true(all(S==S1))
             
@@ -43,12 +43,12 @@ test_that("check routines in symmetric.matrix.R", {
             expect_true(m==n)
         }
         
-        mfd <- create.matrix.manifold('sym','Frobenius',dim=c(d,d))
+        mfd <- matrix.manifold('sym','Frobenius',dim=c(d,d))
         
-        A <- rmatrix(d,d)
+        A <- rmat(d,d)
         P <- make.sym(A %*% t(A))
-        W <- gen.sym(d,1)
-        V <- gen.sym(d,1)
+        W <- rsym(d,1)
+        V <- rsym(d,1)
         m <- rie.metric.sym_Frobenius(mfd,P,W,V)
         expect_true(abs(m-sum(W*V)) < eps)
         
@@ -63,11 +63,11 @@ test_that("check routines in symmetric.matrix.R", {
         expect_true(abs(geo.dist.sym_Frobenius(mfd,P,S)-t) < eps)
         
         
-        A <- rmatrix(d,d)
+        A <- rmat(d,d)
         P <- make.sym(A %*% t(A))
-        W <- gen.sym(d,1)
+        W <- rsym(d,1)
         W <- W / sqrt(rie.metric.sym_Frobenius(mfd,P,W,W))
-        V <- gen.sym(d,1)
+        V <- rsym(d,1)
         t <- runif(2)
         Qs <- geodesic.sym_Frobenius(mfd,P,W,t)
         Q <- Qs[,,1]

@@ -1,14 +1,14 @@
 Package: MatrixManifold
 Type: Package
-Title: matrix manifold
+Title: Basic Operations and Functions on Matrix Manifolds
 Version: 0.1.0
 Author: Zhenhua Lin
-Maintainer: The package maintainer <linulysses@gmail.com>
-Description: a comprehensive package for common matrix Riemannian manifolds
-License: GNU General Public License, version 3
+Maintainer: Zhenhua Lin <linz@nus.edu.sg>
+Description: Provides a set of basic operations and functions for matrix Riemannian manifolds commonly seen in statistics.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
-Imports: matrixcalc
-Suggests: knitr, rmarkdown
+RoxygenNote: 7.1.0
+Imports: matrixcalc, expm, MASS
+Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr

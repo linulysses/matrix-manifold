@@ -2,20 +2,23 @@
 % Please edit documentation in R/symmetric.matrix.R
 \name{rie.log.sym_Frobenius}
 \alias{rie.log.sym_Frobenius}
-\title{Frobenius logarithmic map of symmetric matrices at S}
+\title{Frobenius logarithmic map of symmetric matrices at p}
 \usage{
-\method{rie.log}{sym_Frobenius}(mfd, S, Q, ...)
+\method{rie.log}{sym_Frobenius}(mfd, p, q, ...)
 }
 \arguments{
-\item{S}{the foot point of the log map}
+\item{mfd}{the manifold object}
 
-\item{Q}{a tangent vector at \code{S}}
+\item{p}{the foot point of the log map}
+
+\item{q}{a tangent vector at \code{p}}
 
 \item{...}{other parameters (primarily for computation speedup)}
 }
 \value{
-a matrix that is the log map of \code{Q}
+a matrix that is the log map of \code{q}
 }
 \description{
-Frobenius logarithmic map of symmetric matrices at S
+Frobenius logarithmic map of symmetric matrices at p
 }
+\keyword{internal}

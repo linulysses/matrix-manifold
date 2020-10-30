@@ -2,20 +2,20 @@
 % Please edit documentation in R/symmetric.matrix.R
 \name{rie.metric.sym_Frobenius}
 \alias{rie.metric.sym_Frobenius}
-\title{Frobenius metric of symmetric matrices at S}
+\title{Frobenius metric of symmetric matrices at p}
 \usage{
-\method{rie.metric}{sym_Frobenius}(mfd, S, W, V, opt.param = NULL)
+\method{rie.metric}{sym_Frobenius}(mfd, p, u, v, ...)
 }
 \arguments{
-\item{S}{symmetric, the base point}
+\item{p}{symmetric, the base point}
 
-\item{W}{symmetric, a tangent vector at S}
+\item{u}{symmetric, a tangent vector at p}
 
-\item{V}{symmetric, a tangent vector at S}
+\item{v}{symmetric, a tangent vector at p}
 
-\item{opt.param}{optional parameters, primarily for speedup. Not used here}
+\item{...}{optional parameters, primarily for speedup. Not used here}
 }
 \description{
-Frobenius metric of symmetric matrices at S
+Frobenius metric of symmetric matrices at p
 }
 \keyword{internal}

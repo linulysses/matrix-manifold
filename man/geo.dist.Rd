@@ -7,7 +7,7 @@
 geo.dist(mfd, p, q, ...)
 }
 \arguments{
-\item{mfd}{the manifold object created by \code{create.matrix.manifold}}
+\item{mfd}{the manifold object created by \code{matrix.manifold}}
 
 \item{p}{a point on the manifold}
 

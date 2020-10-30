@@ -7,7 +7,7 @@
 geodesic(mfd, p, u, t, ...)
 }
 \arguments{
-\item{mfd}{the manifold object created by \code{create.matrix.manifold}}
+\item{mfd}{the manifold object created by \code{matrix.manifold}}
 
 \item{p}{the starting point of the geodesic}
 

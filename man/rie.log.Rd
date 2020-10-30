@@ -7,7 +7,7 @@
 rie.log(mfd, p, q, ...)
 }
 \arguments{
-\item{mfd}{the manifold object created by \code{create.matrix.manifold}}
+\item{mfd}{the manifold object created by \code{matrix.manifold}}
 
 \item{p}{the foot point of the logarithm map}
 

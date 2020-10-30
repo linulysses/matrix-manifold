@@ -4,14 +4,14 @@
 \alias{geo.dist.spd_LogCholesky}
 \title{Compute the geodesic distance of two SPD in Log-Cholesky metric}
 \usage{
-\method{geo.dist}{spd_LogCholesky}(mfd, S1, S2, opt.param = NULL)
+\method{geo.dist}{spd_LogCholesky}(mfd, p, q, ...)
 }
 \arguments{
-\item{S1}{a SPD}
+\item{p}{a SPD}
 
-\item{S2}{a SPD}
+\item{q}{a SPD}
 
-\item{opt.param}{optional parameters, primarily for speedup. In the case log-Cholesky, it can be ch(S1) and ch(S2)}
+\item{...}{L1=ch(S1) and L2=ch(S2)}
 }
 \description{
 Compute the geodesic distance of two SPD in Log-Cholesky metric

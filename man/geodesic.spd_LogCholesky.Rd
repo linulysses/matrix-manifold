@@ -4,16 +4,16 @@
 \alias{geodesic.spd_LogCholesky}
 \title{Log-Cholesky geodesic of SPD at S}
 \usage{
-\method{geodesic}{spd_LogCholesky}(mfd, S, W, t, opt.param = NULL)
+\method{geodesic}{spd_LogCholesky}(mfd, p, u, t, ...)
 }
 \arguments{
-\item{S}{spd}
+\item{p}{spd}
 
-\item{W}{symmetric}
+\item{u}{symmetric}
 
 \item{t}{time}
 
-\item{opt.param}{optional parameters, primarily for speedup. In the case log-Cholesky, it can be ch(S)}
+\item{...}{L=ch(S)}
 }
 \description{
 Log-Cholesky geodesic of SPD at S

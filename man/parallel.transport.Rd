@@ -7,7 +7,7 @@
 parallel.transport(mfd, p, q, v, ...)
 }
 \arguments{
-\item{mfd}{the manifold object created by \code{create.matrix.manifold}}
+\item{mfd}{the manifold object created by \code{matrix.manifold}}
 
 \item{p}{a point on the manifold}
 
