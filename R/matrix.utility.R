@@ -1,3 +1,10 @@
+#' matrix inverse
+#' @keywords internal
+inv <- function(S)
+{
+    solve(S)
+}
+
 #' transpose all matrices in an array
 #' @keywords internal
 batch.t <- function(S)
