@@ -68,6 +68,7 @@ mul.LE <- function(P,Q)
 #' @param v a tangent vector at \code{p}
 #' @param ... other parameters (primarily for computation speedup)
 #' @return a matrix that is the exponential map of \code{v}
+#' @keywords internal
 #' @export
 rie.exp.spd_LogEuclidean <- function(mfd,p,v,...)
 {
@@ -80,6 +81,7 @@ rie.exp.spd_LogEuclidean <- function(mfd,p,v,...)
 #' @param q a point on the manifold
 #' @param ... other parameters (primarily for computation speedup)
 #' @return a matrix that is the logarithm map of \code{q}
+#' @keywords internal
 #' @export
 rie.log.spd_LogEuclidean <- function(mfd,p,q,...)
 {
@@ -94,6 +96,7 @@ rie.log.spd_LogEuclidean <- function(mfd,p,q,...)
 #' @param v a tangent vector at \code{q}
 #' @param ... other parameters (primarily for computation speedup)
 #' @return a number that is the Riemannian metric of \code{u} and \code{v}
+#' @keywords internal
 #' @export
 rie.metric.spd_LogEuclidean <- function(mfd,p,u,v,...)
 {
@@ -107,6 +110,7 @@ rie.metric.spd_LogEuclidean <- function(mfd,p,u,v,...)
 #' @param t a vector of nonnegative real numbers
 #' @param ... other parameters (primarily for computation speedup)
 #' @return an array of matrices which are the geodesic evaluated at \code{t}. The last dimension of the array corresponds to \code{t}
+#' @keywords internal
 #' @export
 geodesic.spd_LogEuclidean <- function(mfd,p,u,t,...)
 {
@@ -131,6 +135,7 @@ geodesic.spd_LogEuclidean <- function(mfd,p,u,t,...)
 #' @param q a point on the manifold
 #' @param ... other parameters (primarily for computation speedup)
 #' @return the geodesic distance between \code{p} and \code{q}
+#' @keywords internal
 #' @export
 geo.dist.spd_LogEuclidean <- function(mfd,p,q,...)
 {
@@ -144,6 +149,7 @@ geo.dist.spd_LogEuclidean <- function(mfd,p,q,...)
 #' @param v a tangent vector at \code{p}
 #' @param ... other parameters (primarily for computation speedup)
 #' @return a tangent vector at \code{q}
+#' @keywords internal
 #' @export
 parallel.transport.spd_LogEuclidean <- function(mfd,p,q,v,...) 
 {
@@ -158,6 +164,7 @@ parallel.transport.spd_LogEuclidean <- function(mfd,p,q,v,...)
 #' @param drop whether return the result as a matrix when \code{n=1}
 #' @return an \code{M*N*n} array of \code{n} matrices, where \code{M*N} is the dimensions of matrices
 #' @details The generated samples have expectation zero and follow a isotropic D-dimensional normal distribution with isotropic variance \code{sig}, where D is the intrinsic dimension of the matrix manifold
+#' @keywords internal
 #' @export
 rtvecor.spd_LogEuclidean <- function(mfd,n=1,sig=1,drop=T)
 {
@@ -172,6 +179,7 @@ rtvecor.spd_LogEuclidean <- function(mfd,n=1,sig=1,drop=T)
 #' @param drop whether return the result as a matrix when \code{n=1}
 #' @return an \code{M*N*n} array of \code{n} matrices, where \code{M*N} is the dimensions of matrices
 #' @details The generated samples have Frechet mean \code{mu}. The logarithmic maps of these samples at \code{mu} follow a isotropic D-dimensional normal distribution with isotropic variance \code{sig}, where D is the intrinsic dimension of the matrix manifold
+#' @keywords internal
 #' @export
 rmatrix.spd_LogEuclidean <- function(mfd,n=1,mu=NULL,sig=1,drop=T)
 {
@@ -194,6 +202,7 @@ rmatrix.spd_LogEuclidean <- function(mfd,n=1,mu=NULL,sig=1,drop=T)
 #' @param mfd an object created by \code{matrix.manifold}
 #' @param S an \code{M*N*n} array of matrices or a list of \code{n} matrices, where \code{n} is the number of matrices
 #' @return the Frechet mean of the matrices in \code{S}
+#' @keywords internal
 #' @export
 frechet.mean.spd_LogEuclidean <- function(mfd,S)
 {
